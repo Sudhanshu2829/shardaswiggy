@@ -74,102 +74,47 @@ public class App {
         return ans;
     }
 
-//    public void createOrder(Restro[] restroList){
-//        if(restroList==null){
-//            restroList=this.restroList;
-//        }
-//
-//        System.out.println("******************************************");
-//        System.out.println("Select your Restaurant and order dishes from it in the format | RestroID, DishID1, Qty1, DishID2, Qty2.....");
-//        Scanner sc=new Scanner(System.in);
-//        String orderInput=sc.next();
-//        String[] orderInputData=orderInput.split(",");
-//        String restroID=orderInputData[0];
-//        int orderListlength=(orderInputData.length-1)/2;
-//        Invoice[] orderList=new Invoice[orderListlength];
-//        int bill=0;
-//
-//
-//
-//
-//        for(int ordercnt=1,orderlistcnt=0;ordercnt<orderInputData.length;ordercnt++){
-//            Dish[] temp=res
-//        }
-//
-//    }
+    public void createOrder(Restro[] restroList){
+        if(restroList==null){
+            restroList=this.restroList;
+        }
 
-//    if(restroList == null)
-//    {
-//        restroList = this.restroList;
-//    }
-//
-//
-//        System.out.println("****************************************");
-//        System.out.println("Please choose the Restro and Dishes in this format | RestroId,DishId1,Qty1,DishId2,Qty2...");
-//
-//    Scanner orderInput = new Scanner(System.in);
-//    String orderInputString = orderInput.next();
-//
-//    String[] orderInputData = orderInputString.split(",");
-//    String restroId = orderInputData[0];
-//    List<OrderElement> orderList = new ArrayList<>();
-//    int orderAmnt = 0;
-//
-//        System.out.println(restroList.get((Integer.valueOf(restroId)-1)).getRestroname());
-//
-//        if(Integer.valueOf(restroId) > 9)
-//    {
-//        throw new RuntimeException();
-//    }
-//
-//        try
-//    {
-//        for (int orderCntr = 1, ordrListCntr = 0; orderCntr < orderInputData.length; orderCntr++)
-//        {
-//            String dishId = restroList.get((Integer.valueOf(restroId) - 1)).getMenu().get((Integer.valueOf(orderInputData[orderCntr]) - 1)).getDishId();
-//            String dishName = restroList.get((Integer.valueOf(restroId) - 1)).getMenu().get((Integer.valueOf(orderInputData[orderCntr]) - 1)).getDishName();
-//            Dish tempDish = restroList.get((Integer.valueOf(restroId) - 1)).getMenu().get((Integer.valueOf(orderInputData[orderCntr]) - 1));
-//            int dishPrice = restroList.get((Integer.valueOf(restroId) - 1)).getMenu().get((Integer.valueOf(orderInputData[orderCntr]) - 1)).getPrice();
-//            int dishQty = Integer.valueOf(orderInputData[++orderCntr]);
-//
-//            orderAmnt += dishPrice*dishQty;
-//
-//            System.out.println((ordrListCntr+1)+". "+dishName+" Qty: "+dishQty);
-//
-//            orderList.add(ordrListCntr,new OrderElement(tempDish, dishQty));
-//            ordrListCntr++;
-//        }
-//
-//
-//    }catch(RuntimeException e)
-//    {
-//        System.out.println("An exception Occurred :"+e.getMessage()+" "+e.getStackTrace());
-//        System.out.println("Do you want to send an error report to our developers on Moon");
-//    }
-//
-//    Order order = new Order("001",this.customer.getUsername(),restroId);
-//        orderList.forEach(order::setOrderElement);
-//
-//
-//        System.out.println("****************************************");
-//        System.out.println("Make the Payment of INR "+orderAmnt+"? 1 - YES | 2 - NO");
-//    Scanner pymntInput = new Scanner(System.in);
-//    int pymntInputInt =  pymntInput.nextInt();
-//
-//        if( pymntInputInt == 1)
-//    {
-//        while(!makePayment(orderAmnt))
-//        {
-//            rechargeWallet(orderAmnt);
-//        }
-//
-//        deliverOrder(order);
-//    }
-//        else
-//    {
-//        throw new AbortOrderException("payment");
-//    }
-//}
+        System.out.println("**********************************************************************");
+        System.out.println("Select your Restaurant and order dishes from it in the format | RestroID, DishID1, Qty1, DishID2, Qty2.....");
+        Scanner sc=new Scanner(System.in);
+        String orderInput=sc.next();
+        String[] orderInputData=orderInput.split(",");
+        String restroID=orderInputData[0];
+        int orderListlength=(orderInputData.length-1)/2;
+        Invoice[] orderList=new Invoice[orderListlength];
+        int bill=0;
+        if(Integer.valueOf(restroID)>5){
+            System.out.println("Invalid Input\nPlease enter valid Restaurant ID");
+        }
+        else{
+            System.out.println("**********************************************************************");
+            System.out.println("Your Order:");
+            System.out.println(restroList[Integer.valueOf(restroID)-1].getRestroName());
+
+            for(int ordercnt=1,orderlistcnt=0;ordercnt<orderInputData.length;ordercnt++){
+                Dish[] temp=restroList[Integer.valueOf(restroID)-1].getMenu();
+                String dishID=temp[Integer.valueOf(orderInputData[ordercnt])-1].getDishID();
+                String dishName=temp[Integer.valueOf(orderInputData[ordercnt])-1].getDishName();
+                Dish tempDish=temp[Integer.valueOf(orderInputData[ordercnt])-1];
+                int dishPrice=temp[Integer.valueOf(orderInputData[ordercnt])-1].getPrice();
+                int qty=Integer.valueOf(orderInputData[++ordercnt]);
+
+                bill+=dishPrice*qty;
+
+                System.out.println("\t"+(orderlistcnt+1)+". "+dishName+ "\tQty: "+qty);
+                orderList[orderlistcnt]=new Invoice(tempDish,qty);
+                orderlistcnt++;
+            }
+            System.out.println("**********************************************************************");
+            System.out.println("Your total Bill Amount is: "+bill+"\nDo you like to make the Payment? Press 1 | YES 2 | NO");
+        }
+    }
+
 
     public void browse() throws NullPointerException {
         System.out.println("**********************************************************************");
@@ -181,7 +126,7 @@ public class App {
         for(Restro r:restroList){
             System.out.println("**********************************************************************");
             Dish[] tempMenu=r.getMenu();
-            System.out.println(restrocount + ": "+ r.getRestroName() + "Location: "+ r.getRestroAddress()+"\tExpected Delivery Time: " + (int)deliveryTime(this.user.getLocation(),r.getLocation())+" mins");
+            System.out.println(restrocount + ": "+ r.getRestroName() + "\tLocation: "+ r.getRestroAddress()+"\tExpected Delivery Time: " + (int)deliveryTime(this.user.getLocation(),r.getLocation())+" mins");
             for(Dish d:tempMenu){
                 System.out.println("\t" + restrocount + "." + dishcount + " " + d.getDishName()+ " "+d.getPrice());
                 dishcount++;
@@ -190,7 +135,7 @@ public class App {
             restrocount++;
         }
 
-        //createOrder(null);
+        createOrder(null);
 
     }
 
