@@ -4,6 +4,7 @@ public class Restro {
     String restroID;
     String restroName;
     String restroAddress;
+    Location location;
     Dish[] menu=new Dish[3];
 
     Restro(String id, String name, String addr){
@@ -15,6 +16,10 @@ public class Restro {
 
     public void setMenu(Dish[] menu) {
         this.menu = menu;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public String getRestroID() {
@@ -31,5 +36,9 @@ public class Restro {
 
     public String getRestroAddress() {
         return restroAddress;
+    }
+
+    public Location getLocation() {
+        return location;
     }
 }
