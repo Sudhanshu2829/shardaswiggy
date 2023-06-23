@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CBT Dashboad</title>
+</head>
+<body>
+<h1>Welcome <span th:text="${session.username}"></span></h1>
+<h1>User Information Form</h1>
+<form action="userdetails" method="post">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required><br><br>
+
+    <label for="firstname">First Name:</label>
+    <input type="text" id="firstname" name="firstname" required><br><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="phone">Phone:</label>
+    <input type="tel" id="phone" name="phone" required><br><br>
+
+    <label for="lastname">Last Name:</label>
+    <input type="text" id="lastname" name="lastname" required><br><br>
+
+    <input type="submit" value="Submit">
+
+
+
+    <table>
+        <tr><td><b>first name</b></td><td><span th:text="${userdetail.username}"></span></td></tr>
+        <tr><td><b>FullName</b></td><td><span th:text="${userdetail.firstname}"></span></td></tr>
+        <tr><td><b>FullName</b></td><td><span th:text="${userdetail.lastname}"></span></td></tr>
+        <tr><td><b>FullName</b></td><td><span th:text="${userdetail.phone}"></span></td></tr>
+    </table>
+</form>
+</body>
+</html>
